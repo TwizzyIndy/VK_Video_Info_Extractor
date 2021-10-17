@@ -88,6 +88,8 @@ def printVideoUrlsFromResponse(jsonResponse:dict):
     
     for i in resolutions:
         try:
+            # https://github.com/KhunHtetzNaing/xGetter/blob/master/xgetter/src/main/java/com/htetznaing/lowcostvideo/Sites/VK.java
+            
             s = jsonResponse["payload"][1][4]["player"]["params"][0]["url" + i]
             if s:
                 print("\n" + i + "P : \n" + s )
