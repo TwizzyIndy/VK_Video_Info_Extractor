@@ -72,6 +72,10 @@ def getVideoIdFromUrl(url:str):
     # https://github.com/hojel/script.module.youtube.dl/blob/master/lib/youtube_dl/extractor/vk.py
     _VALID_URL = r'https?://vk\.com/(?:video_ext\.php\?.*?\boid=(?P<oid>\d+).*?\bid=(?P<id>\d+)|(?:videos.*?\?.*?z=)?video(?P<videoid>.*?)(?:\?|%2F|$))'
 
+    # for mobile
+    if url.startswith("https://m.vk.com"):
+        _VALID_URL = r'https?://m.vk\.com/(?:video_ext\.php\?.*?\boid=(?P<oid>\d+).*?\bid=(?P<id>\d+)|(?:videos.*?\?.*?z=)?video(?P<videoid>.*?)(?:\?|%2F|$))'
+
     mobj = re.match(_VALID_URL, url)
     video_id = mobj.group('videoid')
 
