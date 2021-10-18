@@ -69,19 +69,23 @@ def get_public_video_json(video_id : str):
 
 def getVideoIdFromUrl(url:str):
 
-    # https://github.com/hojel/script.module.youtube.dl/blob/master/lib/youtube_dl/extractor/vk.py
-    _VALID_URL = r'https?://vk\.com/(?:video_ext\.php\?.*?\boid=(?P<oid>\d+).*?\bid=(?P<id>\d+)|(?:videos.*?\?.*?z=)?video(?P<videoid>.*?)(?:\?|%2F|$))'
+    # https://regexr.com/397dr
 
-    # for mobile
-    if url.startswith("https://m.vk.com"):
-        _VALID_URL = r'https?://m.vk\.com/(?:video_ext\.php\?.*?\boid=(?P<oid>\d+).*?\bid=(?P<id>\d+)|(?:videos.*?\?.*?z=)?video(?P<videoid>.*?)(?:\?|%2F|$))'
+    # https://www.regextester.com/100027
+    _VALID_URL = r'((\bvideo)(\-*)(\d+)_(\d+))|((\bvideos\b)(\-*)(\d+)_(\d+))|((\bvideo)(\d+)_(\d+))'
 
-    mobj = re.match(_VALID_URL, url)
-    video_id = mobj.group('videoid')
-
-    if not video_id:
-        video_id = '%s_%s' % (mobj.group('oid'), mobj.group('id'))
+    id_list = re.findall(_VALID_URL, url)
     
+    video_id = ""
+
+    if len(id_list) > 0:
+        video_id = id_list[0][0]
+
+        if video_id.startswith("videos"):
+            video_id = video_id.replace('videos', '')
+        
+        video_id = video_id.replace('video', '')
+
     return video_id
 
 def printVideoUrlsFromResponse(jsonResponse:dict):
